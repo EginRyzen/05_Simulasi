@@ -21,5 +21,9 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::resource('/', UserController::class);
+Route::post('login', [UserController::class, 'login']);
+Route::get('logout', [UserController::class, 'logout']);
 
-Route::resource('timeline', GaleryController::class);
+Route::group(['middleware' => ['auth']], function () {
+    Route::resource('timeline', GaleryController::class);
+});
