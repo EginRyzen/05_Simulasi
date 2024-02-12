@@ -8,7 +8,8 @@
             <a href="timeline" class="nav-link">Home</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="#" class="nav-link">Upload <i class="fa fa-upload"></i></a>
+            <a href="javascript:;" class="nav-link" data-toggle="modal" data-target="#modal-create">Upload <i
+                    class="fa fa-upload"></i></a>
         </li>
     </ul>
 
@@ -57,3 +58,40 @@
         </li>
     </ul>
 </nav>
+
+<div class="modal fade" id="modal-create">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Create</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{{ url('timeline') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="text" name="judul" maxlength="100" placeholder="Judul" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="deskripsi" placeholder="Deskripsi" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <input type="file" required id="inputCreate" name="foto">
+                    </div>
+                    <div class="form-group">
+                        <img id="previewCreate" style="width: 100%; max-width:150px; height:200px" alt="">
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->

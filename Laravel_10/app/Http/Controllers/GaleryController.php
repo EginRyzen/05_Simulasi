@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Galery;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class GaleryController extends Controller
 {
@@ -28,7 +29,25 @@ class GaleryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = Auth::user();
+
+        $request->validate([
+            'foto' => 'required|image'
+        ]);
+
+        $nfile = $user->id . date('YmdHis') . '.' . $request->foto->getClientOriginalExtension();
+        $request->foto->move(public_path('img'), $nfile);
+
+        $data = [
+            'id_user' => $user->id,
+            'judul' => $request->judul,
+            'deskripsi' => $request->deskripsi,
+            'foto' => $nfile,
+        ];
+
+        Galery::create($data);
+
+        return back();
     }
 
     /**
