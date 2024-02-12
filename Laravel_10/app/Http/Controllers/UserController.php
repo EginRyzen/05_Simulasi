@@ -36,18 +36,22 @@ class UserController extends Controller
             return back()->with('alert', 'Email Telah Terdaftar!!');
         }
 
-        $data = [
-            'name' => $request->name,
-            'username' => $request->username,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ];
+        if ($request->password == $request->repassword) {
+            $data = [
+                'name' => $request->name,
+                'username' => $request->username,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ];
 
-        $user = User::create($data);
+            $user = User::create($data);
 
-        Auth::login($user);
+            Auth::login($user);
 
-        return redirect('timeline');
+            return redirect('timeline');
+        } else {
+            return back()->with('alert', 'Password Yang Anda Masukan Tidak Sama');
+        }
     }
 
     public function login(Request $request)
