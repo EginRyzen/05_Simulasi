@@ -13,7 +13,10 @@ class GaleryController extends Controller
      */
     public function index()
     {
-        return view('Page.timeline');
+        $user = Auth::user();
+        $galery = Galery::where('id_user', $user->id)->latest()->get();
+
+        return view('Page.timeline', compact('galery'));
     }
 
     /**
@@ -53,9 +56,11 @@ class GaleryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Galery $galery)
+    public function show($id)
     {
-        //
+        Galery::where('id', $id)->delete();
+
+        return back();
     }
 
     /**
@@ -69,9 +74,37 @@ class GaleryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Galery $galery)
+    public function update(Request $request, $id)
     {
-        //
+        if (isset($request->foto)) {
+            $user = Auth::user();
+
+            $request->validate([
+                'foto' => 'required|image'
+            ]);
+
+            $nfile = $user->id . date('YmdHis') . '.' . $request->foto->getClientOriginalExtension();
+            $request->foto->move(public_path('img'), $nfile);
+
+            $data = [
+                'judul' => $request->judul,
+                'deskripsi' => $request->deskripsi,
+                'foto' => $nfile,
+            ];
+
+            Galery::where('id', $id)->update($data);
+
+            return back();
+        } else {
+            $data = [
+                'judul' => $request->judul,
+                'deskripsi' => $request->deskripsi,
+            ];
+
+            Galery::where('id', $id)->update($data);
+
+            return back();
+        }
     }
 
     /**

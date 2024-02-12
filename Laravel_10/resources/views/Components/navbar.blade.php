@@ -75,7 +75,7 @@
                         <input type="text" name="judul" maxlength="100" placeholder="Judul" class="form-control">
                     </div>
                     <div class="form-group">
-                        <input type="text" name="deskripsi" placeholder="Deskripsi" class="form-control">
+                        <textarea rows="5" type="text" name="deskripsi" placeholder="Deskripsi" class="form-control"></textarea>
                     </div>
                     <div class="form-group">
                         <input type="file" required id="inputCreate" name="foto">
